@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 using WebShopApp.Infrastructure.Data;
+using WebShopApp.Infrastructure.Data.Domain;
 
 namespace WebAppShop_test
 {
@@ -19,7 +20,7 @@ namespace WebAppShop_test
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = false;
@@ -29,6 +30,7 @@ namespace WebAppShop_test
                 options.Password.RequiredLength = 5;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
