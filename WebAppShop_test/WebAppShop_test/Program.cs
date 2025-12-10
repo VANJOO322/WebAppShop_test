@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 using WebShopApp.Infrastructure.Data;
 using WebShopApp.Infrastructure.Data.Domain;
+using WebShopApp.Infrastructure.Data.Infrastructure;
 
 namespace WebAppShop_test
 {
@@ -29,11 +30,14 @@ namespace WebAppShop_test
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 5;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            app.PrepareDatabase();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
