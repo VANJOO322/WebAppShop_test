@@ -12,15 +12,15 @@ namespace WebShopApp.Infrastructure.Data.Domain
     public class ApplicationUser:IdentityUser
     {
         [Required]
-        [MaxLenght(30)]
+        [MaxLength(30)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLenght(30)]
+        [MaxLength(30)]
         public string LastName { get; set; } = null!;
 
         [Required]
-        [MaxLenght(30)]
+        [MaxLength(30)]
         public string Address { get; set; } = null!;
     }
 }

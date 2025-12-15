@@ -23,22 +23,28 @@ namespace WebShopApp.Infrastructure.Data.Infrastructure
             await RoleSeeder(services);
             await SeedAdministrator(services);
 
+            var dataCategory = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedCategories(dataCategory);
+
+            var dataBrand = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedBrands(dataBrand);
+
             return app;
         }
 
-        private static async Task RoleSeeder(IServiceProvider serviceProvide)
+        private static async Task RoleSeeder(IServiceProvider serviceProvider)
         {
-            var roleManager = serviceProvide.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             string[] roleNames = { "Administrator", "Client" };
 
             IdentityResult roleResult;
 
-            foreach(var role in roleNames)
+            foreach (var role in roleNames)
             {
-                var roleExit = await roleManager.RoleExistsAsync(role);
+                var roleExist = await roleManager.RoleExistsAsync(role);
 
-                if(!roleExit)
+                if (!roleExist)
                 {
                     roleResult = await roleManager.CreateAsync(new IdentityRole(role));
                 }
@@ -47,9 +53,9 @@ namespace WebShopApp.Infrastructure.Data.Infrastructure
 
         private static async Task SeedAdministrator(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>;
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            if (await userManager.FindByNameAsync("admin")==null)
+            if (await userManager.FindByNameAsync("admin") == null)
             {
                 ApplicationUser user = new ApplicationUser();
                 user.FirstName = "admin";
@@ -57,15 +63,57 @@ namespace WebShopApp.Infrastructure.Data.Infrastructure
                 user.UserName = "admin";
                 user.Email = "admin@admin.com";
                 user.Address = "admin address";
-                user.PhoneNumber= "0888888888";
+                user.PhoneNumber = "0888888888";
 
-                var result = await userManager.CreateAsync(user, "Admin123456");
+                var result = await userManager.CreateAsync
+                (user, "Admin123456");
 
-                if (result.Succeeeded)
+                if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "Administrator").Wait();
                 }
             }
+        }
+        private static void SeedCategories(ApplicationDbContext dataCategory)
+        {
+            if (dataCategory.Categories.Any())
+            {
+                return;
+            }
+            dataCategory.Categories.AddRange(new[]
+            {
+                new Category {CategotyName="Laptop"},
+                new Category {CategotyName="Computer"},
+                new Category {CategotyName="Monitor"},
+                new Category {CategotyName="Accessory"},
+                new Category {CategotyName="TV"},
+                new Category {CategotyName="Mobile phone"},
+                new Category {CategotyName="Smart Watch"}
+            });
+            dataCategory.SaveChanges();
+        }
+
+        private static void SeedBrands(ApplicationDbContext dataBrand)
+        {
+            if (dataBrand.Categories.Any())
+            {
+                return;
+            }
+            dataBrand.Brands.AddRange(new[]
+            {
+
+                new Brand {BrandName="Acer"},
+                new Brand {BrandName="Asus"},
+                new Brand {BrandName="Apple"},
+                new Brand {BrandName="Dell"},
+                new Brand {BrandName="HP"},
+                new Brand {BrandName="Huawei"},
+                new Brand {BrandName="Lenovo"},
+                new Brand {BrandName="Samsung"}
+
+            });
+            dataBrand.SaveChanges();
+
         }
     }
 }
