@@ -9,7 +9,7 @@ namespace WebShopApp.Core.Contracts
 {
     public interface ICategoryService
     {
-        List<Category> GaetCategories();
+        List<Category> GetCategories();
         Category GetCategoryById(int categoryId);
         List<Product> GetProductsByCategory(int categoryId);
     }

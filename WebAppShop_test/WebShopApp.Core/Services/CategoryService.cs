@@ -35,10 +35,5 @@ namespace WebShopApp.Core.Services
                 .Where(x => x.CategoryId == categoryId)
                 .ToList();
         }
-
-        public List<Category> GaetCategories()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
