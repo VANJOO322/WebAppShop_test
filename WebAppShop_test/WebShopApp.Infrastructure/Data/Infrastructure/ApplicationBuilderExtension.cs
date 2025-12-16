@@ -95,7 +95,7 @@ namespace WebShopApp.Infrastructure.Data.Infrastructure
 
         private static void SeedBrands(ApplicationDbContext dataBrand)
         {
-            if (dataBrand.Categories.Any())
+            if (dataBrand.Brands.Any())
             {
                 return;
             }
