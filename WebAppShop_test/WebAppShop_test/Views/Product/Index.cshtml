@@ -2,11 +2,11 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h1>Index</h1>
+<h1>Products</h1>
 @if ((this.User.Identity.IsAuthenticated)&& (this.User.IsInRole("Administrator")))
 {
    <p>
-    <a asp-action="Create">Create New</a>
+        <a asp-action="Create" class="btn btn-success">Create New</a>
    </p> 
 }
 
@@ -84,18 +84,17 @@
                     @Html.DisplayFor(modelItem => item.Discount) %
                 </td>
                 <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Create" asp-controller="Order" asp-route-id="@item.Id" class="btn btn-primary">Order</a>
+                    }
+
                     @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-
-                    }
-                    
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
-
-                    @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
-                    {
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-
                     }
                 </td>
             </tr>
